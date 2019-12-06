@@ -3,7 +3,7 @@ package infiniteTerrainSystem;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Game implements Computers {
+public class Game implements Computers, Player {
 
 	private boolean loop = true;
 	private String direction = null;
@@ -22,6 +22,30 @@ public class Game implements Computers {
 			this.xAxisComputer = new Random().nextInt(10);
 			this.yAxisComputer = new Random().nextInt(10);
 		} while (this.xAxisComputer == 0 && this.yAxisComputer == 0);
+	}
+	
+	public void updatePlayerPosition() {
+		switch (direction.toLowerCase()) {
+		
+		case "north":
+			this.yAxisPlayer += distance2;
+			break;
+		case "south":
+			this.yAxisPlayer -= distance2;
+			break;
+		case "east":
+			this.xAxisPlayer += distance2;
+			break;
+		case "west":
+			this.xAxisPlayer -= distance2;
+			break;
+		case "exit":
+			this.loop = false;
+			break;
+		default:
+			this.incorrectDirection = 1;
+		}
+		
 	}
 	
 	public void playerInp() {
@@ -46,26 +70,7 @@ public class Game implements Computers {
 				System.out.println("Pick a direction - North, South, East or West.");
 				direction = scanDistance.nextLine();
 
-				switch (direction.toLowerCase()) {
-				
-				case "north":
-					this.yAxisPlayer += distance2;
-					break;
-				case "south":
-					this.yAxisPlayer -= distance2;
-					break;
-				case "east":
-					this.xAxisPlayer += distance2;
-					break;
-				case "west":
-					this.xAxisPlayer -= distance2;
-					break;
-				case "exit":
-					this.loop = false;
-					break;
-				default:
-					this.incorrectDirection = 1;
-				}
+				updatePlayerPosition();
 
 				if(incorrectDirection == 1) {
 					System.out.println("Incorrect format. Please try again.");
